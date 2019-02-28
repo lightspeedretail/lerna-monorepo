@@ -1,6 +1,16 @@
-workflow "New workflow" {
+workflow "App1 Workflow" {
+  on = "repository_dispatch"
+  resolves = ["GitHub Action for npm"]
+}
+
+workflow "App2 Workflow" {
+  on = "repository_dispatch"
+  resolves = ["GitHub Action for npm-1"]
+}
+
+workflow "Feature Common" {
   on = "push"
-  resolves = ["app1 version", "app2 version"]
+  resolves = ["Trigger Apps WF"]
 }
 
 action "Features" {
@@ -8,26 +18,49 @@ action "Features" {
   args = "branch feature*"
 }
 
-action "App1 changed" {
-  uses = "./.github/actions/app-changed"
+action "test" {
+  uses = "nuxt/actions-yarn@master"
+  args = "test"
   needs = ["Features"]
+}
+
+action "typecheck" {
+  uses = "nuxt/actions-yarn@master"
+  args = "typecheck"
+  needs = ["Features"]
+}
+
+action "lint" {
+  uses = "nuxt/actions-yarn@master"
+  args = "lint"
+  needs = ["Features"]
+}
+
+action "Trigger Apps WF" {
+  uses = "swinton/httpie.action@8ab0a0e926d091e0444fcacd5eb679d2e2d4ab3d"
+  needs = ["lint", "typecheck", "test"]
+  args = ["--auth-type=jwt", "--auth=$PAT", "POST", "api.github.com/repos/$GITHUB_REPOSITORY/dispatches", "Accept:application/vnd.github.everest-preview+json", "event_type=demo"]
+  secrets = ["PAT"]
+}
+
+action "app1 changed?" {
+  uses = "./.github/actions/app-changed"
   args = "@mono/app1"
 }
 
-action "App2 Changed" {
+action "GitHub Action for npm" {
+  uses = "actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680"
+  args = "--version"
+  needs = ["app1 changed?"]
+}
+
+action "App2 changed" {
   uses = "./.github/actions/app-changed"
-  needs = ["Features"]
   args = "@mono/app2"
 }
 
-action "app1 version" {
+action "GitHub Action for npm-1" {
   uses = "actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680"
-  needs = ["App1 changed"]
-  args = "--version"
-}
-
-action "app2 version" {
-  uses = "actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680"
-  needs = ["App2 Changed"]
+  needs = ["App2 changed"]
   args = "--version"
 }
