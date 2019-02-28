@@ -1,6 +1,11 @@
 workflow "New workflow" {
   on = "push"
-  resolves = ["Check for changes"]
+  resolves = [
+    "App 1 changes",
+    "App 2 changes",
+    "Install dependencies App1",
+    "Install dependencies App2"
+  ]
 }
 
 action "Filters for GitHub Actions" {
@@ -8,14 +13,25 @@ action "Filters for GitHub Actions" {
   args = "branch feature*"
 }
 
-action "Install dependencies" {
+action "Install dependencies App1" {
   uses = "nuxt/actions-yarn@master"
-  needs = ["Filters for GitHub Actions"]
+  needs = ["App 1 changes"]
   args = "install"
 }
 
-action "Check for changes" {
+action "Install dependencies App2" {
   uses = "nuxt/actions-yarn@master"
-  args = "lerna:changed"
-  needs = ["Install dependencies"]
+  needs = ["App 2 changes"]
+  args = "install"
+}
+
+action "App 1 changes" {
+  uses = "nuxt/actions-yarn@master"
+  needs = ["Filters for GitHub Actions"]
+  args = "--silent app-changed @mono/app1"
+}
+
+action "App 2 changes" {
+  uses = "nuxt/actions-yarn@master"
+  needs = ["Filters for GitHub Actions"]
 }
