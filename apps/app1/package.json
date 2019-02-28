@@ -1,0 +1,11 @@
+{
+  "name": "@mono/app1",
+  "version": "1.0.1",
+  "description": "App1",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "typescript": "^3.3.3333"
+  }
+}

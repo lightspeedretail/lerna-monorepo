@@ -1,0 +1,22 @@
+{
+  "name": "lerna-monorepo2",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:lightspeedretail/lerna-monorepo.git",
+  "license": "MIT",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "libs/*",
+      "apps/*"
+    ]
+  },
+  "devDependencies": {
+    "lerna": "^3.13.1"
+  },
+  "scripts": {
+    "lerna:version": "lerna version",
+    "lerna:list": "lerna list -la --json",
+    "lerna:changed": "lerna changed"
+  }
+}
