@@ -1,6 +1,6 @@
 #!/bin/sh
 echo "Going to check the version"
-VERSION=$(yarn --version)
+VERSION=$(yarn lerna:changed)
 echo $VERSION
 FOUND_APP=$(echo $VERSION | grep $1)
 if [ "$1" = "$FOUND_APP" ]; then
