@@ -1,4 +1,4 @@
-FROM node:11-slim
+FROM node:11-alpine
 
 LABEL version="1.0.0"
 LABEL repository="https://github.com/lightspeedretail/lerna-monorepo"
@@ -9,6 +9,8 @@ LABEL com.github.actions.name="GitHub Action to check if an app has changed"
 LABEL com.github.actions.description="Wraps the lerna CLI and check if an app has changed"
 LABEL com.github.actions.icon="package"
 LABEL com.github.actions.color="yellow"
+
+RUN apk update && apk add --no-cache git
 
 RUN yarn global add lerna
 
