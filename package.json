@@ -17,6 +17,10 @@
   "scripts": {
     "lerna:version": "lerna version",
     "lerna:list": "lerna list -la --json",
-    "lerna:changed": "lerna changed"
+    "lerna:changed": "lerna changed",
+    "app-changed": "./scripts/changed.sh",
+    "lint": "echo 'Have to add linting'",
+    "test": "echo 'Have to add testing'",
+    "typecheck": "echo 'Have to add typechecking'"
   }
 }
