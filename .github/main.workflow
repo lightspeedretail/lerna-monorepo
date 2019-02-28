@@ -40,6 +40,7 @@ action "Trigger Apps WF" {
   uses = "swinton/httpie.action@8ab0a0e926d091e0444fcacd5eb679d2e2d4ab3d"
   needs = ["lint", "typecheck", "test"]
   args = ["--auth-type=jwt", "--auth=$PAT", "POST", "api.github.com/repos/$GITHUB_REPOSITORY/dispatches", "Accept:application/vnd.github.everest-preview+json", "event_type=demo"]
+  secrets = ["PAT"]
 }
 
 action "app1 changed?" {
