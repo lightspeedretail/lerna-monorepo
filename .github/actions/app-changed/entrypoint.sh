@@ -1,6 +1,7 @@
 #!/bin/sh
 
 echo "Going to check the changed apps"
+
 CHANGED_APPS=$(lerna changed)
 echo "Changed apps: $CHANGED_APPS"
 FOUND_APP=$(echo $CHANGED_APPS | grep $1)
